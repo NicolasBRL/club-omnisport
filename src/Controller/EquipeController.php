@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
-#[Route('/equipe')]
+#[Route('/dashboard/equipes')]
 #[IsGranted('ROLE_USER')]
 class EquipeController extends AbstractController
 {

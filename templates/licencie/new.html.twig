@@ -1,0 +1,26 @@
+{% extends 'layouts/dashboard.html.twig' %}
+
+{% block title %}Ajouter un licencié
+{% endblock %}
+
+{% block breadcrumb %}
+	{% set breadcrumbItem = ['Activités', 'Licenciés', 'Ajouter une licencié'] %}{% include 'components/dashboard/breadcrumb.html.twig' with breadcrumbItem %}
+{% endblock %}
+
+{% block body %}
+	<div class="flex flex-wrap items-center justify-between p-6 bg-white border border-gray-200 rounded-lg">
+		<h1 class="text-2xl font-bold tracking-tight text-gray-900">Ajouter un licencié</h5>
+		<a href="{{ path('app_licencie_index') }}" class="inline-flex items-center text-white focus:outline-none focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 ml-auto bg-rose-600 hover:bg-rose-700 focus:ring-rose-700 border-rose-700 open-modal">
+			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-2 -ml-1">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M11.25 9l-3 3m0 0l3 3m-3-3h7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+			</svg>
+			Retour
+		</a>
+	</div>
+
+
+	<div class="p-6 bg-white border border-gray-200 rounded-lg my-5">
+		{{ include('licencie/_form.html.twig') }}
+	</div>
+{% endblock %}
+

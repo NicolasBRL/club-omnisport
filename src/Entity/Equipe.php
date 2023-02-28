@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\EquipeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: EquipeRepository::class)]
@@ -22,6 +24,14 @@ class Equipe
     #[ORM\ManyToOne(inversedBy: 'equipes')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Sport $sport = null;
+
+    #[ORM\ManyToMany(targetEntity: Licencie::class, mappedBy: 'equipe')]
+    private Collection $licencies;
+
+    public function __construct()
+    {
+        $this->licencies = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -60,6 +70,33 @@ class Equipe
     public function setSport(?Sport $sport): self
     {
         $this->sport = $sport;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Licencie>
+     */
+    public function getLicencies(): Collection
+    {
+        return $this->licencies;
+    }
+
+    public function addLicency(Licencie $licency): self
+    {
+        if (!$this->licencies->contains($licency)) {
+            $this->licencies->add($licency);
+            $licency->addEquipe($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLicency(Licencie $licency): self
+    {
+        if ($this->licencies->removeElement($licency)) {
+            $licency->removeEquipe($this);
+        }
 
         return $this;
     }
