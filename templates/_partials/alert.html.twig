@@ -1,6 +1,6 @@
 {% for label, messages in app.flashes %}
 	{% for message in messages %}
-		<div class="p-4 mb-4 text-sm rounded-lg  {{ (label == 'danger') ? 'text-red-800 bg-red-50' : 'text-green-800 bg-green-50' }}" role="alert">
+		<div class="p-4 mb-4 text-sm rounded-lg  {{ (label == 'danger') ? 'text-red-800 bg-red-50' : 'text-green-800 bg-green-50' }} alert-content" role="alert">
 			{{ message|raw}}
 		</div>
 	{% endfor %}

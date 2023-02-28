@@ -116,7 +116,7 @@ class SecurityController extends AbstractController
 
             if($form->isSubmitted() && $form->isValid()){
                 // Efface le token
-                $user->setResetToken('');
+                $user->setResetToken(null);
 
                 // Enregistre le nouveau password
                 $user->setPassword(

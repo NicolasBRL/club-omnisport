@@ -1,6 +1,8 @@
 {% extends 'layouts/dashboard.html.twig' %}
 
-{% block title %}Hello DashboardController!{% endblock %}
+{% block title %}{% endblock %}
+{% block breadcrumb %}{% set breadcrumbItem = []%}{% include 'components/dashboard/breadcrumb.html.twig' with breadcrumbItem %}{% endblock %}
+
 
 {% block body %}
 <div class="example-wrapper">
