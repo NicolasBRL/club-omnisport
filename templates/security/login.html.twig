@@ -18,12 +18,16 @@
 					<form class="space-y-4 md:space-y-6" method="post">
 
 						{% if error %}
-							<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                            <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
+                                <span class="font-medium">Erreur :</span> {{ error.messageKey|trans(error.messageData, 'security') }}
+                            </div>
 						{% endif %}
+
+						{% include '_partials/alert.html.twig' %}
 
 						<div>
 							<label for="email" class="block mb-2 text-sm font-medium text-gray-900">Votre email</label>
-							<input type="email" name="email" id="email" value="{{ last_username }}" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-rose-600 focus:border-rose-600 block w-full p-2.5" placeholder="name@company.com" autocomplete="email" required autofocus>
+							<input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-rose-600 focus:border-rose-600 block w-full p-2.5" placeholder="exemple@email.fr" autocomplete="email" required autofocus>
 						</div>
 						<div>
 							<label for="password" class="block mb-2 text-sm font-medium text-gray-900">Mot de passe</label>
@@ -38,7 +42,7 @@
 									<label for="remember" class="text-gray-500">Se souvenir de moi</label>
 								</div>
 							</div>
-							<a href="#" class="text-sm font-medium text-rose-600 hover:underline">Mot de passe oublié ?</a>
+							<a href="{{ path('forgotten_password') }}" class="text-sm font-medium text-rose-600 hover:underline">Mot de passe oublié ?</a>
 						</div>
 
                         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
