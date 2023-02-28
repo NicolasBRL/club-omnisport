@@ -38,7 +38,7 @@ class SportType extends AbstractType
                 'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg hover:ring-rose-500 focus:border-rose-500 block w-full'],
                 'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900'],
                 'row_attr' => ['class' => 'mb-6'],
-            ]);;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

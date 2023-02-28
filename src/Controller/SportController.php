@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Sport;
 use App\Form\SportType;
 use App\Repository\SportRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,6 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/dashboard/sport')]
+#[IsGranted('ROLE_USER')]
 class SportController extends AbstractController
 {
     #[Route('/', name: 'app_sport_index', methods: ['GET'])]
