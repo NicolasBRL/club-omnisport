@@ -22,10 +22,10 @@
 		<table class="w-full text-sm text-left text-gray-500">
 			<thead class="text-xs text-gray-700 uppercase bg-gray-50">
 				<tr>
-					<th scope="col" class="px-6 py-3">
+					<th scope="col" class="px-6 py-3 w-11/12">
 						Nom
 					</th>
-					<th scope="col" class="px-6 py-3">
+					<th scope="col" class="px-6 py-3 w-2/12">
 						Action
 					</th>
 				</tr>
@@ -33,13 +33,13 @@
 			<tbody>
 				{% for sport in sports %}
 					<tr class="bg-white border-b hover:bg-gray-50">
-						<th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap w-11/12">
-							<img class="w-10 h-10 object-cover rounded-full " src="{{ asset('uploads/images/' ~ sport.imageUrl) }}" alt="Image représentant le sport {{sport.nom}}">
+						<th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap">
+							<img class="w-10 h-10 object-cover rounded-full " src="{{ asset('uploads/images/sports/' ~ sport.imageUrl) }}" alt="Image représentant le sport {{sport.nom}}">
 							<div class="pl-3">
 								<div class="text-base font-semibold">{{ sport.nom }}</div>
 							</div>  
 						</th>
-						<th scope="row" class="px-6 py-4 w-2/12">
+						<th scope="row" class="px-6 py-4">
 							<div class="flex">
 								<a href="{{ path('app_sport_show', {'id': sport.id}) }}" class="font-medium text-rose-500 hover:underline mr-4">
 									<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">

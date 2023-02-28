@@ -6,6 +6,7 @@ use App\Entity\Sport;
 use App\Form\SportType;
 use App\Repository\SportRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -41,7 +42,7 @@ class SportController extends AbstractController
                 $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME); // this is needed to safely include the file name as part of the URL
                 $safeFilename = $slugger->slug($originalFilename);
                 $newFilename = $safeFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
-                $imageFile->move( $this->getParameter('images_directory'), $newFilename
+                $imageFile->move( $this->getParameter('images_directory').'/sports/', $newFilename
                 );
                 $sport->setImageUrl($newFilename);
             }
@@ -67,12 +68,38 @@ class SportController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_sport_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Sport $sport, SportRepository $sportRepository): Response
+    public function edit(
+        Request $request, 
+        Sport $sport, 
+        SportRepository $sportRepository,
+        SluggerInterface $slugger
+    ): Response
     {
         $form = $this->createForm(SportType::class, $sport);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $imageFile = $form->get('imageUrl')->getData(); 
+            if ($imageFile) {
+
+                // Supprimer l'ancienne image
+                $projectDir = $this->getParameter('kernel.project_dir');
+                $fileSystem = new Filesystem();
+
+                if($fileSystem->exists($projectDir.'/public/uploads/images/sports/'.$sport->getImageUrl())) {
+                    $fileSystem->remove($projectDir.'/public/uploads/images/sports/'.$sport->getImageUrl());
+                }
+
+                // Créer la nouvelle image
+                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME); // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
+                $imageFile->move( $this->getParameter('images_directory').'/sports/', $newFilename
+                );
+                $sport->setImageUrl($newFilename);
+            }
+
             $sportRepository->save($sport, true);
 
             return $this->redirectToRoute('app_sport_index', [], Response::HTTP_SEE_OTHER);
@@ -88,6 +115,14 @@ class SportController extends AbstractController
     public function delete(Request $request, Sport $sport, SportRepository $sportRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$sport->getId(), $request->request->get('_token'))) {
+            // Supprimer l'image
+            $projectDir = $this->getParameter('kernel.project_dir');
+            $fileSystem = new Filesystem();
+
+            if($fileSystem->exists($projectDir.'/public/uploads/images/sports/'.$sport->getImageUrl())) {
+                $fileSystem->remove($projectDir.'/public/uploads/images/sports/'.$sport->getImageUrl());
+            }
+
             $sportRepository->remove($sport, true);
         }
 
