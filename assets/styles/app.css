@@ -4,3 +4,4 @@
 
 #dashboard{background-color: rgb(243, 244, 246);}
 #dashboard .alert-content{margin-top: 1rem;}
+#dashboard form .mb-6 input[type="radio"]:checked+label{border: 2px solid rgb(225 29 72)}

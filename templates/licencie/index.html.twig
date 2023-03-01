@@ -26,7 +26,7 @@
 						Nom
 					</th>
 					<th scope="col" class="px-6 py-3">
-						Sport
+						Date d'entrée
 					</th>
 					<th scope="col" class="px-6 py-3">
 						Équipe
@@ -44,31 +44,29 @@
 				{% for licencie in licencies %}
 					<tr class="bg-white border-b hover:bg-gray-50">
 						<th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap">
-							<img class="w-10 h-10 object-cover rounded-full " src="{{ asset('uploads/images/licencies/' ~ licencie.imageUrl) }}" alt="Image représentant le licencié {{ licencie.prenom }} {{ licencie.nom }}">
+							{% if licencie.imageUrl %}
+								<img class="w-10 h-10 object-cover rounded-full " src="{{ asset('uploads/images/licencies/' ~ licencie.imageUrl) }}" alt="Image représentant le licencié {{ licencie.prenom }} {{ licencie.nom }}">
+							{% endif %}
 							<div class="pl-3">
-								<div class="text-base font-semibold">{{ licencie.prenom }} {{ licencie.nom }}</div>
+								<div class="text-base font-semibold">{{ licencie.prenom }} <span class="uppercase">{{ licencie.nom }}</span></div>
 							</div>  
 						</th>
 						<td scope="col" class="px-6 py-3">
-							null
+							{{ licencie.dateEntree|date('j F Y', "Europe/Paris") }}
 						</td>
 						<td scope="col" class="px-6 py-3">
-							{% for equipe in licencie.equipe %}
-								{{ equipe.nom }},
-							{% endfor %}
+							<div class="flex flex-wrap gap-2">
+								{% for equipe in licencie.equipe %}
+									<a href="{{path('app_equipe_edit', {'id': equipe.id})}}" class="bg-pink-100 text-pink-800 text-xs font-medium px-2.5 py-0.5 rounded-full">{{ equipe.nom }}</a>
+								{% endfor %}
+							</div>
 						</td>
 						</td>
 						<td scope="col" class="px-6 py-3">
-							null
+							<span class="bg-{{licencie.statusColor}}-100 text-{{licencie.statusColor}}-800 text-xs font-medium mr-2 px-3.5 py-1.5 rounded-full">{{ licencie.statusLabel }}</span>
 						</td>
 						<th scope="row" class="px-6 py-4">
 							<div class="flex">
-								<a href="{{ path('app_licencie_show', {'id': licencie.id}) }}" class="font-medium text-rose-500 hover:underline mr-4">
-									<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-										<path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-										<path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-									</svg>
-								</a>
 								<a href="{{ path('app_licencie_edit', {'id': licencie.id}) }}" class="font-medium text-rose-500 hover:underline mr-4">
 									<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
 										<path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"/>

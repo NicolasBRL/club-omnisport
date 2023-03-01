@@ -34,6 +34,9 @@ class Licencie
     #[ORM\ManyToMany(targetEntity: Equipe::class, inversedBy: 'licencies')]
     private Collection $equipe;
 
+    private ?string $statusLabel = null;
+    private ?string $statusColor = null;
+
     public function __construct()
     {
         $this->equipe = new ArrayCollection();
@@ -100,8 +103,41 @@ class Licencie
     public function setStatus(string $status): self
     {
         $this->status = $status;
+        $this->statusLabel = $this->getStatusLabel();
+        $this->statusColor = $this->getStatusColor();
 
         return $this;
+    }
+
+    public function getStatusLabel(): ?string
+    {
+        switch ($this->status) {
+            case 'waiting':
+                $this->statusColor = 'yellow';
+                return 'En attente';
+            case 'validated':
+                $this->statusColor = 'green';
+                return 'Validé';
+            case 'removed':
+                $this->statusColor = 'pink';
+                return 'Retiré';
+            default:
+                return $this->status;
+        }
+    }
+
+    public function getStatusColor(): ?string
+    {
+        switch ($this->status) {
+            case 'waiting':
+                return 'yellow';
+            case 'validated':
+                return 'green';
+            case 'removed':
+                return 'pink';
+            default:
+                return $this->status;
+        }
     }
 
     /**
