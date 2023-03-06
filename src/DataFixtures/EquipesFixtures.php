@@ -17,7 +17,7 @@ class EquipesFixtures extends Fixture implements DependentFixtureInterface
         $faker = Faker\Factory::create('fr_FR');
         
         for($equipe = 1; $equipe <= 15; $equipe++){
-            $this->createEquipe($faker->sentence(3), $manager);
+            $this->createEquipe(str_replace('.', '', $faker->sentence(3)), $manager);
         }
 
         $manager->flush();
@@ -28,7 +28,7 @@ class EquipesFixtures extends Fixture implements DependentFixtureInterface
         $equipe = new Equipe();
         $equipe->setNom($name);
         $equipe->setImageUrl($this->images[array_rand($this->images, 1)]);
-        $sport = $this->getReference('sport-'.rand(1,15));
+        $sport = $this->getReference('sport-'.rand(1,10));
         $equipe->setSport($sport);
 
         $manager->persist($equipe);

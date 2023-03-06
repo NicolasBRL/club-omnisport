@@ -18,10 +18,20 @@ class FrontController extends AbstractController
         LicencieRepository $licencieRepository,
         ): Response
     {
+        $sports = $sportRepository->findAll();
+        $equipes = $equipeRepository->findAll();
+        $licencies = $licencieRepository->findAll();
+
         return $this->render('front/home.html.twig', [
-            'sports' => $sportRepository->findBy(array(), array('id' => 'DESC'), 8, 0),
-            'equipes' => $equipeRepository->findBy(array(), array('id' => 'DESC'), 8, 0),
-            'licencies' => $licencieRepository->findBy(array(), array('id' => 'DESC'), 8, 0),
+            'chiffres' => [
+                'sport' => count($sports),
+                'equipe' => count($equipes),
+                'licencie' => count($licencies),
+            ],
+            'sports' => $sports,
+            'equipes' => $equipes,
+            'licencies' => $licencies,
+            
         ]);
     }
 }
