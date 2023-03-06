@@ -117,10 +117,7 @@ class SportController extends AbstractController
     public function delete(Request $request, Sport $sport, SportRepository $sportRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$sport->getId(), $request->request->get('_token'))) {
-            if(!$sport->getEquipes()->isEmpty()){
-                $this->addFlash('danger', 'Vous devez d\'abord supprimer les équipes liés à ce sport.');
-                return $this->redirectToRoute('app_sport_index', [], Response::HTTP_SEE_OTHER);
-            }else{
+           
             // Supprimer l'image
             $projectDir = $this->getParameter('kernel.project_dir');
             $fileSystem = new Filesystem();
@@ -130,7 +127,6 @@ class SportController extends AbstractController
             }
 
             $sportRepository->remove($sport, true);
-        }
         }
 
         return $this->redirectToRoute('app_sport_index', [], Response::HTTP_SEE_OTHER);

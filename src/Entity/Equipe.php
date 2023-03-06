@@ -22,7 +22,7 @@ class Equipe
     private ?string $imageUrl = null;
 
     #[ORM\ManyToOne(inversedBy: 'equipes')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Sport $sport = null;
 
     #[ORM\ManyToMany(targetEntity: Licencie::class, mappedBy: 'equipe')]
