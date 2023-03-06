@@ -28,14 +28,8 @@ class Licencie
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $dateEntree = null;
 
-    #[ORM\Column(length: 10)]
-    private ?string $status = null;
-
     #[ORM\ManyToMany(targetEntity: Equipe::class, inversedBy: 'licencies')]
     private Collection $equipe;
-
-    private ?string $statusLabel = null;
-    private ?string $statusColor = null;
 
     public function __construct()
     {
@@ -93,51 +87,6 @@ class Licencie
         $this->dateEntree = $dateEntree;
 
         return $this;
-    }
-
-    public function getStatus(): ?string
-    {
-        return $this->status;
-    }
-
-    public function setStatus(string $status): self
-    {
-        $this->status = $status;
-        $this->statusLabel = $this->getStatusLabel();
-        $this->statusColor = $this->getStatusColor();
-
-        return $this;
-    }
-
-    public function getStatusLabel(): ?string
-    {
-        switch ($this->status) {
-            case 'waiting':
-                $this->statusColor = 'yellow';
-                return 'En attente';
-            case 'validated':
-                $this->statusColor = 'green';
-                return 'Validé';
-            case 'removed':
-                $this->statusColor = 'pink';
-                return 'Retiré';
-            default:
-                return $this->status;
-        }
-    }
-
-    public function getStatusColor(): ?string
-    {
-        switch ($this->status) {
-            case 'waiting':
-                return 'yellow';
-            case 'validated':
-                return 'green';
-            case 'removed':
-                return 'pink';
-            default:
-                return $this->status;
-        }
     }
 
     /**

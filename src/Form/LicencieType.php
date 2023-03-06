@@ -70,23 +70,6 @@ class LicencieType extends AbstractType
                 'label' => 'Date d\'entrée dans le club',
                 'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900'],
             ])
-
-            ->add('status', ChoiceType::class, [
-                'choices' => [
-                    'En attente' => 'waiting',
-                    'Validé' => 'validated',
-                    'Retiré' => 'removed',
-                ],
-                'choice_attr' => [
-                    'En attente' => ['data-color' => 'yellow'],
-                    'Validé' => ['data-color' => 'green'],
-                    'Retiré' => ['data-color' => 'pink'],
-                ],
-
-                'expanded' => true,
-                'multiple' => false,
-                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900'],
-            ])
             ->add('equipe', EntityType::class, [
                 'class' => Equipe::class,
                 'choice_label' => 'nom',

@@ -61,14 +61,6 @@ class SportController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_sport_show', methods: ['GET'])]
-    public function show(Sport $sport): Response
-    {
-        return $this->render('sport/show.html.twig', [
-            'sport' => $sport,
-        ]);
-    }
-
     #[Route('/{id}/edit', name: 'app_sport_edit', methods: ['GET', 'POST'])]
     public function edit(
         Request $request, 

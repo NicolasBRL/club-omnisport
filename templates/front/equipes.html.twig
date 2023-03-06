@@ -30,7 +30,7 @@
 								<div class="ml-2 text-sm">
                                     <span class="text-rose-400">{{equipe.getSport.nom}}</span>
 									<h5 class="mb-1 text-lg font-medium text-gray-900">{{equipe.nom}}</h5>
-									<p id="helper-checkbox-text" class="text-xs font-normal text-gray-500">2 Licenciés</p>
+									<p id="helper-checkbox-text" class="text-xs font-normal text-gray-500">{{equipe.getLicencies|length}} Licencié{% if equipe.getLicencies|length > 1 %}s{% endif %}</p>
 								</div>
 							</a>
 						{% endfor %}

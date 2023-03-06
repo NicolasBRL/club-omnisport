@@ -40,21 +40,21 @@
 		<div class="my-8 grid grid-cols-2 md:grid-cols-4 gap-8">
 			{% for sport in sports|slice(0, 8) %}
 				<div class="max-w-sm bg-white shadow rounded-lg ">
-					<a href="{{ path('app_sport_show', {'id': sport.id}) }}">
+					<div>
 						{% if sport.imageUrl %}
 							<img class="rounded-t-lg" src="{{ asset('uploads/images/sports/' ~ sport.imageUrl) }}" alt="image du sport {{ sport.nom}}"/>
 						{% endif %}
-					</a>
+					</div>
 					<div class="p-5">
-						<a href="{{ path('app_sport_show', {'id': sport.id}) }}">
+						<div>
 							<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">{{ sport.nom}}</h5>
-						</a>
+						</div>
 						<p class="mb-3 font-normal text-gray-400">
 							{% set equipesCount = sport.getEquipes|length ~ ' Équipe' %}
 							{% set equipePlural = (sport.getEquipes|length > 1) ? 's' : '' %}
 							{{equipesCount}}{{equipePlural}}
 						</p>
-						<a href="{{ path('app_sport_show', {'id': sport.id}) }}" class="inline-flex items-center py-2 text-sm font-medium text-center text-rose-600">
+						<a href="{{path('activites')}}" class="inline-flex items-center py-2 text-sm font-medium text-center text-rose-600">
 							Découvrir
 							<svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
 								<path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
@@ -78,7 +78,7 @@
                         {% if equipe.imageUrl %}
 							<img class="w-24 h-24 mb-3 rounded-full shadow-lg" src="{{ asset('uploads/images/equipes/' ~ equipe.imageUrl) }}" alt="image de l'équipe {{ equipe.nom}}"/>
 						{% endif %}
-						<h5 class="mb-1 text-xl font-medium text-gray-900">{{equipe.nom}}</h5>
+						<h5 class="mb-1 text-xl font-medium text-gray-900 text-center">{{equipe.nom}}</h5>
 						<span class="text-sm text-gray-500">{{equipe.getSport.nom}} | {{equipe.getLicencies|length}} Licencié{% if equipe.getLicencies|length > 1 %}s{% endif%}</span>
 						<a href="{{ path('app_equipe_show', {'id': equipe.id}) }}" class="inline-flex items-center py-2 text-sm font-medium text-center text-rose-600">
 							Découvrir

@@ -13,11 +13,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
-#[Route('/dashboard/equipes')]
-#[IsGranted('ROLE_USER')]
 class EquipeController extends AbstractController
 {
-    #[Route('/', name: 'app_equipe_index', methods: ['GET'])]
+    #[Route('/dashboard/equipes', name: 'app_equipe_index', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
     public function index(EquipeRepository $equipeRepository): Response
     {
         return $this->render('equipe/index.html.twig', [
@@ -25,25 +24,25 @@ class EquipeController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_equipe_new', methods: ['GET', 'POST'])]
+    #[Route('/dashboard/equipes/new', name: 'app_equipe_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_USER')]
     public function new(
-        Request $request, 
+        Request $request,
         EquipeRepository $equipeRepository,
         SluggerInterface $slugger
-    ): Response
-    {
+    ): Response {
         $equipe = new Equipe();
         $form = $this->createForm(EquipeType::class, $equipe);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $imageFile = $form->get('imageUrl')->getData(); 
-            
+            $imageFile = $form->get('imageUrl')->getData();
+
             if ($imageFile) {
                 $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME); // this is needed to safely include the file name as part of the URL
                 $safeFilename = $slugger->slug($originalFilename);
                 $newFilename = $safeFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
-                $imageFile->move( $this->getParameter('images_directory').'/equipes/', $newFilename);
+                $imageFile->move($this->getParameter('images_directory') . '/equipes/', $newFilename);
                 $equipe->setImageUrl($newFilename);
             }
 
@@ -58,7 +57,7 @@ class EquipeController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_equipe_show', methods: ['GET'])]
+    #[Route('/equipes/{id}', name: 'app_equipe_show', methods: ['GET'])]
     public function show(Equipe $equipe): Response
     {
         return $this->render('equipe/show.html.twig', [
@@ -66,34 +65,36 @@ class EquipeController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_equipe_edit', methods: ['GET', 'POST'])]
+    #[Route('/dashboard/equipes/{id}/edit', name: 'app_equipe_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_USER')]
     public function edit(
-        Request $request, 
-        Equipe $equipe, 
+        Request $request,
+        Equipe $equipe,
         EquipeRepository $equipeRepository,
         SluggerInterface $slugger
-    ): Response
-    {
+    ): Response {
         $form = $this->createForm(EquipeType::class, $equipe);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $imageFile = $form->get('imageUrl')->getData(); 
+            $imageFile = $form->get('imageUrl')->getData();
             if ($imageFile) {
 
                 // Supprimer l'ancienne image
                 $projectDir = $this->getParameter('kernel.project_dir');
                 $fileSystem = new Filesystem();
 
-                if($fileSystem->exists($projectDir.'/public/uploads/images/equipes/'.$equipe->getImageUrl()) && $equipe->getImageUrl()) {
-                    $fileSystem->remove($projectDir.'/public/uploads/images/equipes/'.$equipe->getImageUrl());
+                if ($fileSystem->exists($projectDir . '/public/uploads/images/equipes/' . $equipe->getImageUrl()) && $equipe->getImageUrl()) {
+                    $fileSystem->remove($projectDir . '/public/uploads/images/equipes/' . $equipe->getImageUrl());
                 }
 
                 // Créer la nouvelle image
                 $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME); // this is needed to safely include the file name as part of the URL
                 $safeFilename = $slugger->slug($originalFilename);
                 $newFilename = $safeFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
-                $imageFile->move( $this->getParameter('images_directory').'/equipes/', $newFilename
+                $imageFile->move(
+                    $this->getParameter('images_directory') . '/equipes/',
+                    $newFilename
                 );
                 $equipe->setImageUrl($newFilename);
             }
@@ -109,16 +110,17 @@ class EquipeController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_equipe_delete', methods: ['POST'])]
+    #[Route('/dashboard/equipes/{id}', name: 'app_equipe_delete', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
     public function delete(Request $request, Equipe $equipe, EquipeRepository $equipeRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$equipe->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $equipe->getId(), $request->request->get('_token'))) {
             // Supprimer l'image
             $projectDir = $this->getParameter('kernel.project_dir');
             $fileSystem = new Filesystem();
 
-            if($fileSystem->exists($projectDir.'/public/uploads/images/equipes/'.$equipe->getImageUrl()) && $equipe->getImageUrl()) {
-                $fileSystem->remove($projectDir.'/public/uploads/images/equipes/'.$equipe->getImageUrl());
+            if ($fileSystem->exists($projectDir . '/public/uploads/images/equipes/' . $equipe->getImageUrl()) && $equipe->getImageUrl()) {
+                $fileSystem->remove($projectDir . '/public/uploads/images/equipes/' . $equipe->getImageUrl());
             }
             $equipeRepository->remove($equipe, true);
         }

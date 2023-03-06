@@ -11,6 +11,7 @@ use Faker;
 class EquipesFixtures extends Fixture implements DependentFixtureInterface
 {
     private $images = ['equipe-1.png', 'equipe-2.jpeg', 'equipe-3.jpeg', 'equipe-4.png', 'equipe-5.png', 'equipe-6.png', 'equipe-7.png', 'equipe-8.png', 'equipe-9.png'];
+    private $counter = 1;
 
     public function load(ObjectManager $manager): void
     {
@@ -30,6 +31,9 @@ class EquipesFixtures extends Fixture implements DependentFixtureInterface
         $equipe->setImageUrl($this->images[array_rand($this->images, 1)]);
         $sport = $this->getReference('sport-'.rand(1,10));
         $equipe->setSport($sport);
+
+        $this->addReference('equipe-'.$this->counter, $equipe);
+        $this->counter++;
 
         $manager->persist($equipe);
 

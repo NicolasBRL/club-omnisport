@@ -33,9 +33,6 @@
 					</th>
 					</th>
 					<th scope="col" class="px-6 py-3">
-						Status
-					</th>
-					<th scope="col" class="px-6 py-3">
 						Action
 					</th>
 				</tr>
@@ -60,10 +57,6 @@
 									<a href="{{path('app_equipe_edit', {'id': equipe.id})}}" class="bg-pink-100 text-pink-800 text-xs font-medium px-2.5 py-0.5 rounded-full">{{ equipe.nom }}</a>
 								{% endfor %}
 							</div>
-						</td>
-						</td>
-						<td scope="col" class="px-6 py-3">
-							<span class="bg-{{licencie.statusColor}}-100 text-{{licencie.statusColor}}-800 text-xs font-medium mr-2 px-3.5 py-1.5 rounded-full">{{ licencie.statusLabel }}</span>
 						</td>
 						<th scope="row" class="px-6 py-4">
 							<div class="flex">
