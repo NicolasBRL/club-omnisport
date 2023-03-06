@@ -1,0 +1,125 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Club Omnisport{% endblock %}
+
+{% block pageId %}home{% endblock %}
+
+{% block body %}
+	<section id="hero" class="isolate bg-white max-h-screen relative">
+		<div class="absolute -z-10 transform-gpu overflow-hidden hero-container max-h-full">
+			<img src="{{ asset('build/images/hero-home.jpg') }}" class="hero-img">
+		</div>
+
+		<div class="relative px-6 lg:px-8">
+			<div class="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
+				<div class="text-center">
+					<h1 class="text-6xl font-bold uppercase tracking-tight text-white sm:text-6xl">
+						<span class="text-3xl font-light">Entraînez-vous avec nous,<br></span>
+						<span class="">Devenez un pro</span>
+					</h1>
+					<p class="mt-6 text-lg leading-8 text-white">Nous vous formons avec les meilleurs entraîneurs professionnels pour le sport spécifique que vous avez choisi.</p>
+
+					<div class="icon-scroll mt-6 mx-auto">
+						<div class="mouse">
+							<div class="wheel"></div>
+						</div>
+						<div class="icon-arrows">
+							<span></span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="nos-activites" class="container mx-auto py-16">
+		<h2 class="text-3xl text-center uppercase font-bold title">
+			<span class="underline">D</span>écouvrez nos activités
+		</h2>
+
+		<div class="my-8 grid grid-cols-2 md:grid-cols-4 gap-8">
+			{% for sport in sports %}
+				<div class="max-w-sm bg-white shadow rounded-lg ">
+					<a href="{{ path('app_sport_show', {'id': sport.id}) }}">
+						{% if sport.imageUrl %}
+							<img class="rounded-t-lg" src="{{ asset('uploads/images/sports/' ~ sport.imageUrl) }}" alt="image du sport {{ sport.nom}}"/>
+						{% endif %}
+					</a>
+					<div class="p-5">
+						<a href="{{ path('app_sport_show', {'id': sport.id}) }}">
+							<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">{{ sport.nom}}</h5>
+						</a>
+						<p class="mb-3 font-normal text-gray-400">
+							{% set equipesCount = sport.getEquipes|length ~ ' Équipe' %}
+							{% set equipePlural = (sport.getEquipes|length > 1) ? 's' : '' %}
+							{{equipesCount}}{{equipePlural}}
+						</p>
+						<a href="{{ path('app_sport_show', {'id': sport.id}) }}" class="inline-flex items-center py-2 text-sm font-medium text-center text-rose-600">
+							Découvrir
+							<svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+								<path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+							</svg>
+						</a>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</section>
+
+	<section id="nos-equipes" class="container mx-auto pb-16">
+		<h2 class="text-3xl text-center uppercase font-bold title">
+			<span class="underline">D</span>écouvrez nos équipes
+		</h2>
+
+		<div class="my-8 grid grid-cols-2 md:grid-cols-4 gap-8">
+			{% for equipe in equipes %}
+				<div class="w-full max-w-sm bg-white rounded-lg shadow">
+					<div class="flex flex-col items-center p-10">
+                        {% if equipe.imageUrl %}
+							<img class="w-24 h-24 mb-3 rounded-full shadow-lg" src="{{ asset('uploads/images/equipes/' ~ equipe.imageUrl) }}" alt="image de l'équipe {{ equipe.nom}}"/>
+						{% endif %}
+						<h5 class="mb-1 text-xl font-medium text-gray-900">{{equipe.nom}}</h5>
+						<span class="text-sm text-gray-500">{{equipe.getSport.nom}} | {{equipe.getLicencies|length}} Licencié{% if equipe.getLicencies|length > 1 %}s{% endif%}</span>
+						<a href="{{ path('app_equipe_show', {'id': equipe.id}) }}" class="inline-flex items-center py-2 text-sm font-medium text-center text-rose-600">
+							Découvrir
+							<svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+								<path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+							</svg>
+						</a>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</section>
+
+    <section id="chiffre" class="container mx-auto pb-16">
+		<h2 class="text-3xl text-center uppercase font-bold title">
+			<span class="underline">L</span>e club en quelques chiffre
+		</h2>
+        <div class="my-8 grid grid-cols-2 md:grid-cols-3 gap-8">
+            <div class="w-full max-w-sm bg-rose-600 rounded-lg shadow">
+				<div class="flex flex-col items-center p-10">
+                    <h5 class="text-5xl font-bold text-white">{{sports|length}}</h5>
+                    <span class="text-sm text-slate-100">Sports</span>
+                </div>
+            </div>
+
+            <div class="w-full max-w-sm bg-rose-600 rounded-lg shadow">
+				<div class="flex flex-col items-center p-10">
+                    <h5 class="text-5xl font-bold text-white">{{equipes|length}}</h5>
+                    <span class="text-sm text-slate-100">Équipes</span>
+                </div>
+            </div>
+
+            <div class="w-full max-w-sm bg-rose-600 rounded-lg shadow">
+				<div class="flex flex-col items-center p-10">
+                    <h5 class="text-5xl font-bold text-white">{{licencies|length}}</h5>
+                    <span class="text-sm text-slate-100">Licenciés</span>
+                </div>
+            </div>
+        </div>
+        
+    </section>
+
+
+{% endblock %}
