@@ -1,9 +1,38 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="inline-flex items-center text-white focus:outline-none focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 ml-auto bg-rose-600 hover:bg-rose-700 focus:ring-rose-700 border-rose-700 open-modal">
-			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-2 -ml-1">
-				<path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"/>
-			</svg>
-			{{ button_label|default('Ajouter') }}
-    </button>
+<div class="mb-6">
+	{{ form_widget(form.nom)}}
+</div>
+<div class="mb-6">
+	{{ form_widget(form.imageUrl)}}
+</div>
+<div class="mb-6">
+	{{ form_widget(form.sport)}}
+</div>
+
+<div class="mb-6">
+	{{ form_label(form.licencies) }}
+
+	<ul class="items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex sm:flex-wrap">
+		{% for child in form.licencies.children %}
+			<li class="w-1/4 border-gray-200 flex {{((loop.length % 4 != 0 and loop.index <= loop.length - (loop.length % 4)) or (loop.length % 4 == 0 and loop.length - loop.index > 4 - 1)? 'border-b' : '')}} {{ (loop.index % 4 != 0) ? 'border-r' : '' }}">
+				<div class="flex p-2 pl-3">
+					<div class="flex items-center h-5">
+						{{ form_widget(child, {'attr': {'class': 'w-4 h-4 text-red-600 bg-gray-100 border-gray-300 rounded focus:ring-red-500 focus:ring-2'}}) }}
+					</div>
+
+					<div class="ml-2 text-sm">
+						<label for="{{ child.vars.id }}" class="font-medium text-gray-900 cursor-pointer">{{ child.vars.label }}</label>
+					</div>
+				</div>
+			</li>
+		{% endfor %}
+	</ul>
+</div>
+
+<button class="inline-flex items-center text-white focus:outline-none focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 ml-auto bg-rose-600 hover:bg-rose-700 focus:ring-rose-700 border-rose-700 open-modal">
+	<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-2 -ml-1">
+		<path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"/>
+	</svg>
+	{{ button_label|default('Ajouter') }}
+</button>
 {{ form_end(form) }}

@@ -85,7 +85,7 @@ class EquipeController extends AbstractController
                 $projectDir = $this->getParameter('kernel.project_dir');
                 $fileSystem = new Filesystem();
 
-                if($fileSystem->exists($projectDir.'/public/uploads/images/equipes/'.$equipe->getImageUrl())) {
+                if($fileSystem->exists($projectDir.'/public/uploads/images/equipes/'.$equipe->getImageUrl()) && $equipe->getImageUrl()) {
                     $fileSystem->remove($projectDir.'/public/uploads/images/equipes/'.$equipe->getImageUrl());
                 }
 
@@ -113,6 +113,13 @@ class EquipeController extends AbstractController
     public function delete(Request $request, Equipe $equipe, EquipeRepository $equipeRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$equipe->getId(), $request->request->get('_token'))) {
+            // Supprimer l'image
+            $projectDir = $this->getParameter('kernel.project_dir');
+            $fileSystem = new Filesystem();
+
+            if($fileSystem->exists($projectDir.'/public/uploads/images/equipes/'.$equipe->getImageUrl()) && $equipe->getImageUrl()) {
+                $fileSystem->remove($projectDir.'/public/uploads/images/equipes/'.$equipe->getImageUrl());
+            }
             $equipeRepository->remove($equipe, true);
         }
 

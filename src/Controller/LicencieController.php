@@ -78,7 +78,7 @@ class LicencieController extends AbstractController
                 $projectDir = $this->getParameter('kernel.project_dir');
                 $fileSystem = new Filesystem();
 
-                if($fileSystem->exists($projectDir.'/public/uploads/images/licencies/'.$licencie->getImageUrl())) {
+                if($fileSystem->exists($projectDir.'/public/uploads/images/licencies/'.$licencie->getImageUrl()) && $licencie->getImageUrl()) {
                     $fileSystem->remove($projectDir.'/public/uploads/images/licencies/'.$licencie->getImageUrl());
                 }
 
@@ -110,7 +110,7 @@ class LicencieController extends AbstractController
             $projectDir = $this->getParameter('kernel.project_dir');
             $fileSystem = new Filesystem();
 
-            if($fileSystem->exists($projectDir.'/public/uploads/images/licencies/'.$licencie->getImageUrl())) {
+            if($fileSystem->exists($projectDir.'/public/uploads/images/licencies/'.$licencie->getImageUrl()) && $licencie->getImageUrl()) {
                 $fileSystem->remove($projectDir.'/public/uploads/images/licencies/'.$licencie->getImageUrl());
             }
 
