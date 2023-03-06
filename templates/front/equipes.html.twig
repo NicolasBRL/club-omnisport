@@ -1,0 +1,42 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Club Omnisport - Équipes
+{% endblock %}
+
+{% block pageId %}equipes
+{% endblock %}
+
+{% block body %}
+	<section id="hero" class="isolate bg-white relative -z-10">
+		<div class="transform-gpu overflow-hidden hero-container max-h-[32rem]">
+			<img class="hero-img" src="{{ asset('build/images/hero-home.jpg') }}">
+		</div>
+	</section>
+
+	<section class="w-full">
+		<div class="page-container sm:w-4/5 mx-auto px-6 pb-6 -mt-20">
+			<div class="overflow-hidden shadow sm:rounded-md">
+				<div class="bg-white px-4 py-5 sm:p-6">
+					<h2 class="text-3xl text-center uppercase font-bold title">
+						<span class="underline">N</span>os équipes
+					</h2>
+
+					<div class="grid grid-cols-3 gap-8 mt-8">
+						{% for equipe in equipes %}
+							<a href="{{path('app_equipe_show', {'id': equipe.id})}}" class="flex p-4 shadow rounded hover:bg-gray-200">
+								<div class="flex items-center">
+									<img class="w-10 h-10 rounded-full shadow-lg object-cover" src="{{ asset('uploads/images/equipes/' ~ equipe.imageUrl) }}" alt="image de l'équipe {{ equipe.nom}}"/>
+								</div>
+								<div class="ml-2 text-sm">
+                                    <span class="text-rose-400">{{equipe.getSport.nom}}</span>
+									<h5 class="mb-1 text-lg font-medium text-gray-900">{{equipe.nom}}</h5>
+									<p id="helper-checkbox-text" class="text-xs font-normal text-gray-500">2 Licenciés</p>
+								</div>
+							</a>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}

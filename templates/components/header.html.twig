@@ -2,7 +2,7 @@
     <div class="container mx-auto px-6 lg:px-8">
         <nav class="flex items-center justify-between" aria-label="Global">
             <div class="flex lg:flex-1">
-                <a href="#" class="-m-1.5 p-1.5">
+                <a href="{{path('home')}}" class="-m-1.5 p-1.5">
                     <span class="sr-only">Club Omnisport</span>
                     <img class="h-8" src="{{ asset('build/images/logo.svg') }}" alt="Logo du club omnisport">
                 </a>
@@ -16,11 +16,11 @@
                 </button>
             </div>
             <div class="hidden lg:flex lg:gap-x-12">
-                <a href="#" class="text-sm font-semibold leading-6 text-rose-800">Accueil</a>
+                <a href="{{path('home')}}" class="text-sm font-semibold leading-6 text-rose-800">Accueil</a>
 
-                <a href="#" class="text-sm font-semibold leading-6 text-rose-800">Activités</a>
+                <a href="{{path('activites')}}" class="text-sm font-semibold leading-6 text-rose-800">Activités</a>
 
-                <a href="#" class="text-sm font-semibold leading-6 text-rose-800">Équipes</a>
+                <a href="{{path('equipes')}}" class="text-sm font-semibold leading-6 text-rose-800">Équipes</a>
             </div>
             <div class="hidden lg:flex lg:flex-1 lg:justify-end">
             </div>
@@ -29,7 +29,7 @@
         <div role="dialog" aria-modal="true">
             <div class="fixed inset-0 z-10 overflow-y-auto bg-white px-6 py-6 lg:hidden">
                 <div class="flex items-center justify-between">
-                    <a href="#" class="-m-1.5 p-1.5">
+                    <a href="{{path('home')}}" class="-m-1.5 p-1.5">
                         <span class="sr-only">Club Omnisport</span>
                         <img class="h-8" src="{{ asset('build/images/logo.svg') }}" alt="Logo du club omnisport">
                     </a>
@@ -43,11 +43,11 @@
                 <div class="mt-6 flow-root">
                     <div class="-my-6 divide-y divide-gray-500/10">
                         <div class="space-y-2 py-6">
-                            <a href="#" class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-400/10">Accueil</a>
+                            <a href="{{path('home')}}" class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-400/10">Accueil</a>
 
-                            <a href="#" class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-400/10">Activités</a>
+                            <a href="{{path('activites')}}" class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-400/10">Activités</a>
 
-                            <a href="#" class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-400/10">Équipes</a>
+                            <a href="{{path('equipes')}}" class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-400/10">Équipes</a>
                         </div>
                     </div>
                 </div>

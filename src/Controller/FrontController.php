@@ -34,4 +34,24 @@ class FrontController extends AbstractController
             
         ]);
     }
+
+    #[Route('/activites', name: 'activites')]
+    public function activites_index(
+        SportRepository $sportRepository,
+    ): Response
+    {
+        return $this->render('front/activites.html.twig', [
+            'sports' => $sportRepository->findAll()
+        ]);
+    }
+
+    #[Route('/equipes', name: 'equipes')]
+    public function equipes_index(
+        EquipeRepository $equipeRepository,
+    ): Response
+    {
+        return $this->render('front/equipes.html.twig', [
+            'equipes' => $equipeRepository->findBy([], ['id' => 'ASC'])
+        ]);
+    }
 }
