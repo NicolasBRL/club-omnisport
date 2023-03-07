@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Contact;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -36,6 +37,16 @@ class ContactType extends AbstractType
                     'placeholder' => 'nom@exemple.com'
                 ]
             ])
+            ->add('sujet',TextType::class, [
+                'label' => 'Sujet',
+                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-white'],
+                'row_attr' => ['class' => 'mb-6'],
+
+                'required' => true,
+                'attr' => [
+                    'class' => 'shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5',
+                ]
+            ])
             ->add('content', TextareaType::class, [
                 'label' => 'Votre message',
                 'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-white'],
@@ -54,7 +65,7 @@ class ContactType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            // Configure your form options here
+            'data_class' => Contact::class,
         ]);
     }
 }

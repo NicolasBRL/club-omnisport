@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class FrontController extends AbstractController
 {
@@ -35,17 +36,19 @@ class FrontController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
+
+            $contactRepository->save($contact, true);
+
             $contactFormData = [
                 'nom' => $contact->getNom(),
                 'email' => $contact->getEmail(),
-                'content' => $contact->getContent()
+                'content' => $contact->getContent(),
+                'sujet' => $contact->getSujet(),
+                'urlToMessage' => $this->generateUrl('app_contact_index', ['id' => $contact->getId()], UrlGeneratorInterface::ABSOLUTE_URL),
             ];
 
-            $subject = 'Demande de contact sur votre site de '.$contactFormData['email'];
+            $subject = 'Nouvelle demande de contact sur le site clubomnisport.fr';
             $mailer->send(to: 'contact@clubomnisport.fr', subject: $subject, template: 'contact', context: compact('contactFormData'));
-
-            $contact->setSujet($subject);
-            $contactRepository->save($contact, true);
 
             $this->addFlash('success', 'Votre message a été envoyé');
             return $this->redirectToRoute('home', ['_fragment' => 'contact']);

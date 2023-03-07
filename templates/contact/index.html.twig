@@ -1,20 +1,90 @@
-<!DOCTYPE html>
+{% extends 'layouts/dashboard.html.twig' %}
 
-<title>Hello ContactController!</title>
+{% block title %}Messagerie
+{% endblock %}
+
+{% block breadcrumb %}
+	{% set breadcrumbItem = ['Contact']%}{% include 'components/dashboard/breadcrumb.html.twig' with breadcrumbItem %}
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+	<div class="flex flex-wrap items-center justify-between p-6 bg-white border border-gray-200 rounded-lg">
+		<h1 class="text-2xl font-bold tracking-tight text-gray-900">Liste des réponses au formulaire de contact</h5>
+	</div>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+	{% include '_partials/alert.html.twig' %}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/Users/nico/Documents/ARINFO/CDA/TP/Symfony/TP2_ClubOmnisport/clubOmnisport/src/Controller/ContactController.php'|file_link(0) }}">src/Controller/ContactController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/Users/nico/Documents/ARINFO/CDA/TP/Symfony/TP2_ClubOmnisport/clubOmnisport/templates/contact/index.html.twig'|file_link(0) }}">templates/contact/index.html.twig</a></code></li>
-    </ul>
-</div>
+	<div class="relative overflow-x-auto shadow-md sm:rounded-lg my-5">
+
+		<table class="w-full text-sm text-left text-gray-500">
+			<thead class="text-xs text-gray-700 uppercase bg-gray-50">
+				<tr>
+					<th scope="col" class="px-6 py-3">
+						Objet
+					</th>
+					<th scope="col" class="px-6 py-3">
+						Nom
+					</th>
+					<th scope="col" class="px-6 py-3">
+						Email
+					</th>
+					<th scope="col" class="px-6 py-3">
+						Date
+					</th>
+					<th scope="col" class="px-6 py-3">
+						Action
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for contact in contacts %}
+					<tr class="hover:bg-white border-b {% if not contact.readed %}bg-white font-bold{% else %}bg-gray-50{% endif %}">
+						<td scope="col" class="px-6 py-3">
+							{{ contact.sujet }}
+						</td>
+						<td scope="col" class="px-6 py-3">
+							{{ contact.nom }}
+						</td>
+						<td scope="col" class="px-6 py-3">
+							{{ contact.email }}
+						</td>
+						<td scope="col" class="px-6 py-3">
+							{{ contact.date|date('j F Y H:i', "Europe/Paris") }}
+						</td>
+						<th scope="row" class="px-6 py-4">
+
+							<div class="flex items-center">
+								<a href="{{ path('app_contact_show', {'id': contact.id}) }}" class="font-medium text-rose-500 hover:underline mr-4">
+									<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+										<path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/>
+										<path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+									</svg>
+								</a>
+								{{ include('contact/_delete_form.html.twig') }}
+                                <form method="post" action="{{ path('app_contact_index', {'id': contact.id, 'mark-as-read': true}) }}" class="h-5">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('index' ~ contact.id) }}">
+                                    <button type="submit" title="marqué en tant que lu" class="font-medium text-rose-500 hover:underline">
+                                        {% if contact.readed %}
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                                            </svg>
+
+                                        {% else %}
+                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 9v.906a2.25 2.25 0 01-1.183 1.981l-6.478 3.488M2.25 9v.906a2.25 2.25 0 001.183 1.981l6.478 3.488m8.839 2.51l-4.66-2.51m0 0l-1.023-.55a2.25 2.25 0 00-2.134 0l-1.022.55m0 0l-4.661 2.51m16.5 1.615a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V8.844a2.25 2.25 0 011.183-1.98l7.5-4.04a2.25 2.25 0 012.134 0l7.5 4.04a2.25 2.25 0 011.183 1.98V19.5z"/>
+                                            </svg>
+                                        {% endif %}
+                                    </button>
+                                </form>
+							</div>
+						</th>
+					</tr>
+				{% else %}
+					<tr class="bg-white border-b hover:bg-gray-50">
+						<td colspan="6" class="text-center py-4">Aucune réponse</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
 {% endblock %}

@@ -39,6 +39,11 @@ class ContactRepository extends ServiceEntityRepository
         }
     }
 
+    public function findAll()
+    {
+        return $this->findBy(array(), array('date' => 'DESc'));
+    }
+
 //    /**
 //     * @return Contact[] Returns an array of Contact objects
 //     */
