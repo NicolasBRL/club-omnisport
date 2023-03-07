@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Contact;
 use App\Form\ContactType;
+use App\Repository\ContactRepository;
 use App\Repository\EquipeRepository;
 use App\Repository\LicencieRepository;
 use App\Repository\SportRepository;
@@ -19,6 +21,7 @@ class FrontController extends AbstractController
         SportRepository $sportRepository,
         EquipeRepository $equipeRepository,
         LicencieRepository $licencieRepository,
+        ContactRepository $contactRepository,
         Request $request,
         SendMailService $mailer,
         ): Response
@@ -27,14 +30,24 @@ class FrontController extends AbstractController
         $equipes = $equipeRepository->findAll();
         $licencies = $licencieRepository->findAll();
 
-        $form = $this->createForm(ContactType::class);
+        $contact = new Contact();
+        $form = $this->createForm(ContactType::class, $contact);
         $form->handleRequest($request);
+
         if($form->isSubmitted() && $form->isValid()) {
-            $contactFormData = $form->getData();
-            $subject = 'Demande de contact sur votre site de ' . $contactFormData['email'];
-            $mailer->send(to: 'contact@club.fr', subject: $subject, template: 'contact', context: compact('contactFormData'));
+            $contactFormData = [
+                'nom' => $contact->getNom(),
+                'email' => $contact->getEmail(),
+                'content' => $contact->getContent()
+            ];
+
+            $subject = 'Demande de contact sur votre site de '.$contactFormData['email'];
+            $mailer->send(to: 'contact@clubomnisport.fr', subject: $subject, template: 'contact', context: compact('contactFormData'));
+
+            $contact->setSujet($subject);
+            $contactRepository->save($contact, true);
+
             $this->addFlash('success', 'Votre message a été envoyé');
-            
             return $this->redirectToRoute('home', ['_fragment' => 'contact']);
         }
 

@@ -22,7 +22,7 @@ class SendMailService
     {
         //On crée le mail
         $email = (new TemplatedEmail())
-            ->from('no-reply@club.fr')
+            ->from('no-reply@clubomnisport.fr')
             ->to($to)
             ->subject($subject)
             ->htmlTemplate("emails/$template.html.twig")
