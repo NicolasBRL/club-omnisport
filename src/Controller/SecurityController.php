@@ -73,7 +73,6 @@ class SecurityController extends AbstractController
 
                 // Envoie du mail
                 $mail->send(
-                    'no-reply@clubomnisport.fr',
                     $user->getEmail(),
                     'Réinitialisation de votre mot de passe',
                     'password_reset',

@@ -70,7 +70,6 @@ class UtilisateurController extends AbstractController
 
             // Envoie du mail
             $mail->send(
-                'no-reply@clubomnisport.fr',
                 $utilisateur->getEmail(),
                 'Création de votre mot de passe',
                 'password_create',

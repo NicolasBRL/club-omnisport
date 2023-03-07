@@ -54,7 +54,7 @@
 							{% set equipePlural = (sport.getEquipes|length > 1) ? 's' : '' %}
 							{{equipesCount}}{{equipePlural}}
 						</p>
-						<a href="{{path('activites')}}" class="inline-flex items-center py-2 text-sm font-medium text-center text-rose-600">
+						<a href="{{path('activites')}}" class="inline-flex items-center py-2 text-sm font-medium text-center text-red-600">
 							Découvrir
 							<svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
 								<path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
@@ -80,7 +80,7 @@
 						{% endif %}
 						<h5 class="mb-1 text-xl font-medium text-gray-900 text-center">{{equipe.nom}}</h5>
 						<span class="text-sm text-gray-500">{{equipe.getSport.nom}} | {{equipe.getLicencies|length}} Licencié{% if equipe.getLicencies|length > 1 %}s{% endif%}</span>
-						<a href="{{ path('app_equipe_show', {'id': equipe.id}) }}" class="inline-flex items-center py-2 text-sm font-medium text-center text-rose-600">
+						<a href="{{ path('app_equipe_show', {'id': equipe.id}) }}" class="inline-flex items-center py-2 text-sm font-medium text-center text-red-600">
 							Découvrir
 							<svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
 								<path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
@@ -97,21 +97,21 @@
 			<span class="underline">L</span>e club en quelques chiffre
 		</h2>
         <div class="my-8 grid grid-cols-2 md:grid-cols-3 gap-8">
-            <div class="w-full max-w-sm bg-rose-600 rounded-lg shadow">
+            <div class="w-full max-w-sm bg-red-700 rounded-lg shadow">
 				<div class="flex flex-col items-center p-10">
                     <h5 class="text-5xl font-bold text-white">{{chiffres.sport}}</h5>
                     <span class="text-sm text-slate-100">Sports</span>
                 </div>
             </div>
 
-            <div class="w-full max-w-sm bg-rose-600 rounded-lg shadow">
+            <div class="w-full max-w-sm bg-red-700 rounded-lg shadow">
 				<div class="flex flex-col items-center p-10">
                     <h5 class="text-5xl font-bold text-white">{{chiffres.equipe}}</h5>
                     <span class="text-sm text-slate-100">Équipes</span>
                 </div>
             </div>
 
-            <div class="w-full max-w-sm bg-rose-600 rounded-lg shadow">
+            <div class="w-full max-w-sm bg-red-700 rounded-lg shadow">
 				<div class="flex flex-col items-center p-10">
                     <h5 class="text-5xl font-bold text-white">{{chiffres.licencie}}</h5>
                     <span class="text-sm text-slate-100">Licenciés</span>
@@ -119,6 +119,23 @@
             </div>
         </div>
         
+    </section>
+
+	<section id="contact" class="container mx-auto p-16 mb-8 flex bg-red-800 rounded-lg">
+		<h2 class="text-3xl uppercase font-bold title w-5/12 text-white">
+			<span class="underline white">D</span>es questions ?
+		</h2>
+        <div class="w-full">
+			{% for message in app.flashes('success') %}
+				<div class="p-4 mb-4 text-sm rounded-lg text-green-800 bg-green-50 alert-content" role="alert">
+					{{ message|raw}}
+				</div>
+			{% endfor %}
+			{{ form_start(contactForm) }}
+				{{ form_widget(contactForm) }}
+				<button type="submit" class="py-3 px-5 text-sm font-medium text-center text-white rounded-lg bg-white sm:w-fit hover:bg-gray-100 text-red-600">Envoyez</button>
+			{{ form_end(contactForm) }}
+        </div>
     </section>
 
 
